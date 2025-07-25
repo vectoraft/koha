@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koha SHAD CN Components Demo</title>
+    <link rel="stylesheet" href="koha-tmpl/opac-tmpl/bootstrap/css/shadcn-opac.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css">
+    <style>
+        body {
+            font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .demo-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .demo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .demo-forms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .component-showcase {
+            display: grid;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .glassmorphism-demo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .neumorphism-demo {
+            background: var(--neomorph-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .demo-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)) 50%, hsl(var(--primary) / 0.7));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-header p {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            margin: 0 auto 1rem;
+            background: hsl(var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(var(--primary-foreground));
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <button id="theme-toggle" class="btn btn-secondary btn-icon">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>Koha SHAD CN Components</h1>
+            <p>Modern, accessible, and beautiful UI components for Koha Library Management System</p>
+        </div>
+
+        <!-- Features Overview -->
+        <div class="demo-section">
+            <h2>✨ Features</h2>
+            <div class="features-grid">
+                <div class="card feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>SHAD CN Design System</h3>
+                    <p>Modern, consistent design language with carefully crafted components</p>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">🌙</div>
+                    <h3>Dark Mode Support</h3>
+                    <p>Complete dark mode implementation with smooth transitions</p>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">♿</div>
+                    <h3>Accessibility First</h3>
+                    <p>WCAG 2.1 AA compliant with full keyboard navigation</p>
+                </div>
+                <div class="card feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Responsive Design</h3>
+                    <p>Mobile-first design that works on all devices</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons Demo -->
+        <div class="demo-section">
+            <h2>🔘 Buttons</h2>
+            <div class="demo-buttons">
+                <button class="btn btn-primary">Primary Button</button>
+                <button class="btn btn-secondary">Secondary Button</button>
+                <button class="btn btn-destructive">Destructive Button</button>
+                <button class="btn btn-ghost">Ghost Button</button>
+                <button class="btn btn-primary btn-sm">Small Button</button>
+                <button class="btn btn-primary btn-lg">Large Button</button>
+                <button class="btn btn-primary btn-icon">⭐</button>
+                <button class="btn btn-primary btn-loading">Loading</button>
+            </div>
+        </div>
+
+        <!-- Cards Demo -->
+        <div class="demo-section">
+            <h2>🃏 Cards</h2>
+            <div class="demo-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Basic Card</h3>
+                        <p class="card-description">A simple card with header, content, and footer</p>
+                    </div>
+                    <div class="card-content">
+                        <p>This is the card content. It contains information and can have multiple paragraphs.</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary">Action</button>
+                        <button class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+                
+                <div class="card card-elevated">
+                    <div class="card-header">
+                        <h3 class="card-title">Elevated Card</h3>
+                        <p class="card-description">Enhanced with shadow and hover effects</p>
+                    </div>
+                    <div class="card-content">
+                        <p>This card has enhanced shadows and interactive hover effects.</p>
+                    </div>
+                </div>
+                
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Success Card</h3>
+                        <p class="card-description">Card with success status indicator</p>
+                    </div>
+                    <div class="card-content">
+                        <p>This card indicates successful operation or positive status.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forms Demo -->
+        <div class="demo-section">
+            <h2>📋 Forms</h2>
+            <div class="demo-forms">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Basic Form</h3>
+                    </div>
+                    <div class="card-content">
+                        <form class="form">
+                            <div class="form-group">
+                                <label class="form-label required">Name</label>
+                                <input type="text" class="form-input" placeholder="Enter your name">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" placeholder="Enter your email">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-textarea" placeholder="Enter your message"></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="reset" class="btn btn-secondary">Reset</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Form Controls</h3>
+                    </div>
+                    <div class="card-content">
+                        <form class="form">
+                            <div class="form-group">
+                                <label class="form-label">Select Option</label>
+                                <select class="form-select">
+                                    <option>Option 1</option>
+                                    <option>Option 2</option>
+                                    <option>Option 3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Checkbox</label>
+                                <div class="form-group-inline">
+                                    <input type="checkbox" class="form-checkbox" id="checkbox1">
+                                    <label for="checkbox1">I agree to the terms</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Radio Buttons</label>
+                                <div class="form-group-inline">
+                                    <input type="radio" class="form-radio" id="radio1" name="radio">
+                                    <label for="radio1">Option A</label>
+                                </div>
+                                <div class="form-group-inline">
+                                    <input type="radio" class="form-radio" id="radio2" name="radio">
+                                    <label for="radio2">Option B</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Toggle Switch</label>
+                                <input type="checkbox" class="form-switch" id="switch1">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Demo -->
+        <div class="demo-section">
+            <h2>🧭 Navigation</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Navigation Components</h3>
+                </div>
+                <div class="card-content">
+                    <div class="component-showcase">
+                        <!-- Tabs -->
+                        <div class="tabs">
+                            <div class="tabs-list">
+                                <button class="tabs-trigger active">Overview</button>
+                                <button class="tabs-trigger">Features</button>
+                                <button class="tabs-trigger">Settings</button>
+                            </div>
+                            <div class="tabs-content">
+                                <p>This is the Overview tab content. Switch between tabs to see different content.</p>
+                            </div>
+                        </div>
+
+                        <!-- Breadcrumbs -->
+                        <nav class="breadcrumb">
+                            <div class="breadcrumb-item">
+                                <a href="#" class="breadcrumb-link">Home</a>
+                            </div>
+                            <div class="breadcrumb-item">
+                                <a href="#" class="breadcrumb-link">Library</a>
+                            </div>
+                            <div class="breadcrumb-item">
+                                <span class="breadcrumb-current">Books</span>
+                            </div>
+                        </nav>
+
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <a href="#" class="pagination-item">Previous</a>
+                            <a href="#" class="pagination-item">1</a>
+                            <a href="#" class="pagination-item active">2</a>
+                            <a href="#" class="pagination-item">3</a>
+                            <a href="#" class="pagination-item">Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Glassmorphism Demo -->
+        <div class="demo-section">
+            <h2>✨ Glassmorphism Effects</h2>
+            <div class="glassmorphism-demo">
+                <div class="demo-grid">
+                    <div class="card card-glass">
+                        <div class="card-header">
+                            <h3 class="card-title">Glass Card</h3>
+                            <p class="card-description">Beautiful glassmorphism effect</p>
+                        </div>
+                        <div class="card-content">
+                            <p>This card uses glassmorphism design with blur effects and transparency.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-glass">Glass Button</button>
+                        <button class="btn btn-glass btn-lg">Large Glass</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Neumorphism Demo -->
+        <div class="demo-section">
+            <h2>🎭 Neumorphism Effects</h2>
+            <div class="neumorphism-demo">
+                <div class="demo-grid">
+                    <div class="card card-neomorph">
+                        <div class="card-header">
+                            <h3 class="card-title">Neomorph Card</h3>
+                            <p class="card-description">Subtle neumorphism design</p>
+                        </div>
+                        <div class="card-content">
+                            <p>This card uses neumorphism with soft shadows and subtle depth.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-neomorph">Neomorph Button</button>
+                        <button class="btn btn-neomorph btn-lg">Large Neomorph</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer style="text-align: center; margin-top: 4rem; padding: 2rem; color: hsl(var(--muted-foreground)); border-top: 1px solid hsl(var(--border));">
+            <p>&copy; 2024 Koha Library Management System - SHAD CN UI Components</p>
+            <p>Built with Tailwind CSS, TypeScript, and modern web technologies</p>
+        </footer>
+    </div>
+
+    <script src="assets/js/shadcn-theme.js"></script>
+    <script>
+        // Initialize theme system
+        const themeSystem = new KohaShadcnTheme();
+        
+        // Theme toggle button
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        themeToggle.addEventListener('click', () => {
+            themeSystem.toggleTheme();
+            const isDark = document.documentElement.classList.contains('dark');
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
+        });
+        
+        // Set initial icon
+        const isDark = document.documentElement.classList.contains('dark');
+        themeIcon.textContent = isDark ? '☀️' : '🌙';
+        
+        // Tab functionality
+        const tabTriggers = document.querySelectorAll('.tabs-trigger');
+        tabTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                // Remove active class from all triggers
+                tabTriggers.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked trigger
+                trigger.classList.add('active');
+            });
+        });
+        
+        // Button loading demo
+        const loadingButton = document.querySelector('.btn-loading');
+        if (loadingButton) {
+            loadingButton.addEventListener('click', () => {
+                loadingButton.disabled = true;
+                setTimeout(() => {
+                    loadingButton.disabled = false;
+                }, 3000);
+            });
+        }
+    </script>
+</body>
+</html>

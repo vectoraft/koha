@@ -1,0 +1,14 @@
+/* SHAD CN Component Index: Import all components */
+
+/* Foundation: Variables, base styles, and Tailwind */
+@import './foundation.css';
+
+/* Components */
+@import './buttons.css';
+@import './cards.css';
+@import './forms.css';
+@import './nav.css';
+@import './modals.css';
+@import './tables.css';
+@import './utilities.css';
+@import './icons.css';

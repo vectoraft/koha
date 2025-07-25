@@ -1,0 +1,362 @@
+[% USE raw %]
+[% USE Koha %]
+[% USE KohaDates %]
+[% USE Branches %]
+[% USE Categories %]
+[% USE Price %]
+[% USE AdditionalContents %]
+[% USE AuthClient %]
+[% PROCESS 'i18n.inc' %]
+[% PROCESS 'shadcn-helpers.inc' %]
+[% SET OpacNav = AdditionalContents.get( location => "OpacNav", lang => lang, library => logged_in_user.branchcode || default_branch, blocktitle => 0 ) %]
+[% SET OpacNavBottom = AdditionalContents.get( location => "OpacNavBottom", lang => lang, library => logged_in_user.branchcode || default_branch, blocktitle => 0 ) %]
+[% SET OpacNavRight = AdditionalContents.get( location => "OpacNavRight", lang => lang, library => logged_in_user.branchcode || default_branch ) %]
+[% SET OpacMainUserBlock = AdditionalContents.get( location => "OpacMainUserBlock", lang => lang, library => logged_in_user.branchcode || default_branch ) %]
+[% SET OpacLoginInstructions = AdditionalContents.get( location => "OpacLoginInstructions", lang => lang, library => branchcode || default_branch ) %]
+[% SET AllPublicBranches = Branches.all(  search_params => { public => 1 }, selected => branchcode ) %]
+[% INCLUDE 'doc-head-open.inc' %]
+<title>[% IF ( LibraryNameTitle ) %][% LibraryNameTitle | html %][% ELSE %]Koha online[% END %] catalog</title>
+<link rel="canonical" href="[% OPACBaseURL | url %]/" />
+[% INCLUDE 'doc-head-close-shadcn.inc' %]
+[% BLOCK cssinclude %]
+[% END %]
+</head>
+[% INCLUDE 'bodytag.inc' bodyid='opac-main' %]
+[% INCLUDE 'masthead-shadcn.inc' %]
+
+<main class="main-content">
+    [% WRAPPER breadcrumbs %]
+        [% IF news_item %]
+            [% WRAPPER breadcrumb_item bc_active= 1 %]
+                [% news_item.title | html %]
+            [% END %]
+        [% ELSE %]
+
+        [% END %]
+    [% END #/ WRAPPER breadcrumbs %]
+
+    [% SET container_id = "notloggedin" %]
+    [% IF Koha.Preference( 'opacuserlogin' ) == 1 && loggedinusername %]
+        [% container_id = "loggedin" %]
+    [% END %]
+    <div id="[% container_id | html %]" class="main-container">
+        <div class="content-grid">
+            [% IF ( OpacNav ||  OpacNavBottom ) %]
+                <aside class="sidebar-left">
+                    <div id="navigation"> [% INCLUDE 'navigation.inc' %] </div>
+                </aside>
+            [% END %]
+
+            [% SET column_class = "main-content-area" %]
+            [% IF ( OpacNav ||  OpacNavBottom  ) && (Koha.Preference( 'opacuserlogin' ) == 1 || OpacNavRight) %]
+                [%#  Three-column layout with right and left sidebars %]
+                [% column_class = "main-content-area three-column" %]
+            [% ELSIF (Koha.Preference( 'opacuserlogin' ) == 1 || OpacNavRight) %]
+                [%#  Two-column layout with right sidebar %]
+                [% column_class = "main-content-area two-column" %]
+            [% ELSIF ( OpacNav ||  OpacNavBottom  ) %]
+                [% column_class = "main-content-area two-column-left" %]
+            [% END %]
+            <div class="[% column_class | html %]">
+                <h1 class="sr-only">Koha home</h1>
+
+                [% IF Koha.Preference( 'OpacNewsLibrarySelect' ) && AllPublicBranches.size > 1 %]
+                    [% UNLESS news_id %]
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "news-branch-selector",
+                            body = BLOCK
+                        ) %]
+                            <form id="news-branch-select" name="news-branch-select" method="get" action="/cgi-bin/koha/opac-main.pl">
+                                <legend class="sr-only">News</legend>
+                                <div class="form-group">
+                                    <label for="news-branch" class="form-label">Display news for:</label>
+                                    <select id="news-branch" name="branch" class="input input-select">
+                                        [% IF ( branchcode == "" ) %]
+                                            <option value="" selected="selected">System-wide only</option>
+                                        [% ELSE %]
+                                            <option value="">System-wide only</option>
+                                        [% END %]
+                                        [% PROCESS options_for_libraries libraries => AllPublicBranches %]
+                                    </select>
+                                </div>
+                            </form>
+                        [% END %]
+                    [% END %]
+                [% END %]
+
+                [% IF news_id %]
+                    [% SET koha_news = AdditionalContents.get( category => 'news', location => ['opac_only', 'staff_and_opac'], lang => lang, id => news_id ) %]
+                [% ELSE %]
+                    [% SET koha_news = AdditionalContents.get( category => 'news', location => ['opac_only', 'staff_and_opac'], lang => lang, library => branchcode ) %]
+                [% END %]
+                
+                [% IF koha_news.content.count %]
+                    <div id="news" class="news-container">
+                        [% SET show_author = Koha.Preference('NewsAuthorDisplay') == 'opac' || Koha.Preference('NewsAuthorDisplay') == 'both' %]
+                        [% FOREACH koha_new IN koha_news.content %]
+                            [% shadcn_card(
+                                variant = "glass",
+                                class = "news-item",
+                                header = BLOCK
+                            ) %]
+                                <div class="news-header">
+                                    <h2 class="news-title">
+                                        [% IF ( news_item ) %]
+                                            [% koha_new.title | html %]
+                                        [% ELSE %]
+                                            <a id="newsitem[% koha_new.additional_content.id | html %]" href="/cgi-bin/koha/opac-main.pl?news_id=[% koha_new.additional_content.id | uri %]" class="news-link">
+                                                [% koha_new.title | html %]
+                                            </a>
+                                        [% END %]
+                                    </h2>
+                                    <div class="news-meta">
+                                        [% shadcn_badge(
+                                            text = koha_new.published_on | $KohaDates,
+                                            variant = "secondary",
+                                            class = "news-date"
+                                        ) %]
+                                        [% IF ( show_author && koha_new.author ) %]
+                                            [% shadcn_badge(
+                                                text = "by " _ koha_new.author.firstname _ " " _ koha_new.author.surname,
+                                                variant = "outline",
+                                                class = "news-author"
+                                            ) %]
+                                        [% END %]
+                                    </div>
+                                </div>
+                            [% END %]
+                            [% END # card header %]
+                            [% body = BLOCK %]
+                                <div class="news-content">
+                                    [% koha_new.content | $raw %]
+                                </div>
+                            [% END %]
+                            [% footer = BLOCK %]
+                                <div class="news-actions">
+                                    [% IF ( news_id ) %]
+                                        [% shadcn_button(
+                                            text = "Show all news",
+                                            href = "/cgi-bin/koha/opac-main.pl",
+                                            variant = "ghost",
+                                            size = "sm"
+                                        ) %]
+                                    [% END %]
+                                </div>
+                            [% END %]
+                        [% END %]
+
+                        [% UNLESS news_id %]
+                            <div class="news-rss">
+                                [% shadcn_button(
+                                    text = '<svg class="icon feather-icon" aria-hidden="true"><use href="#rss"></use></svg> RSS feed for ' _ (branchcode ? Branches.GetName( branchcode ) _ ' ' : '') _ 'library news',
+                                    href = OPACBaseURL _ '/cgi-bin/koha/opac-news-rss.pl?branchcode=' _ branchcode,
+                                    variant = "outline",
+                                    size = "sm",
+                                    class = "rss-button"
+                                ) %]
+                            </div>
+                        [% END %]
+                    </div>
+                [% ELSIF news_id %]
+                    [% shadcn_alert(
+                        variant = "destructive",
+                        title = "News item not found",
+                        message = "This news item does not exist."
+                    ) %]
+                [% ELSE %]
+                    [% IF Koha.Preference( 'OpacNewsLibrarySelect' ) %]
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "no-news-card",
+                            body = BLOCK
+                        ) %]
+                            <div class="no-news-message">
+                                <svg class="icon feather-icon no-news-icon" aria-hidden="true"><use href="#info"></use></svg>
+                                <p>No news to display.</p>
+                            </div>
+                        [% END %]
+                    [% END %]
+                [% END # IF koha_news %]
+
+                [% UNLESS news_item # Don't show under single news item %]
+                    [% IF ( daily_quote ) %]
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "daily-quote-card",
+                            header = BLOCK
+                        ) %]
+                            <div class="quote-header">
+                                <svg class="icon feather-icon quote-icon" aria-hidden="true"><use href="#message-circle"></use></svg>
+                                <h2 class="quote-title">Quote of the day</h2>
+                            </div>
+                        [% END %]
+                        [% body = BLOCK %]
+                            <blockquote class="daily-quote">
+                                <p class="quote-text">[% daily_quote.text | html %]</p>
+                                <cite class="quote-source">[% daily_quote.source | html %]</cite>
+                            </blockquote>
+                        [% END %]
+                    [% END %]
+
+                    [% IF ( OpacMainUserBlock ) %]
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "main-user-block",
+                            body = BLOCK
+                        ) %]
+                            [% PROCESS koha_news_block news => OpacMainUserBlock %]
+                        [% END %]
+                    [% END %]
+                [% END %]
+            </div>
+            <!-- / main content area -->
+
+            [% IF ( ( Koha.Preference( 'opacuserlogin' ) == 1 ) || OpacNavRight ) %]
+                <aside class="sidebar-right">
+                    [% IF Koha.Preference( 'opacuserlogin' ) == 1 %]
+                        [% UNLESS ( loggedinusername ) %]
+                            [% UNLESS ( casAuthentication || shibbolethAuthentication || Koha.Preference('opacShibOnly') ) %]
+                                [% shadcn_card(
+                                    variant = "glass",
+                                    class = "login-card",
+                                    header = BLOCK
+                                ) %]
+                                    <div class="login-header">
+                                        <svg class="icon feather-icon login-icon" aria-hidden="true"><use href="#log-in"></use></svg>
+                                        <h2 class="login-title">Log in to your account</h2>
+                                    </div>
+                                [% END %]
+                                [% body = BLOCK %]
+                                    <form action="/cgi-bin/koha/opac-user.pl" method="post" name="auth" id="auth" autocomplete="off" class="login-form">
+                                        [% INCLUDE 'csrf-token.inc' %]
+                                        <input type="hidden" name="koha_login_context" value="opac" />
+                                        
+                                        [% IF ( Koha.Preference('GoogleOpenIDConnect') == 1 ) %]
+                                            [% shadcn_button(
+                                                text = '<svg class="icon feather-icon" aria-hidden="true"><use href="#chrome"></use></svg> Log in with Google',
+                                                href = "/cgi-bin/koha/svc/auth/googleopenidconnect",
+                                                variant = "outline",
+                                                class = "google-login-button w-full",
+                                                id = "openid_connect"
+                                            ) %]
+                                            <div class="login-separator">
+                                                <span class="separator-text">or use your library account</span>
+                                            </div>
+                                        [% END %]
+                                        
+                                        [% SET identity_providers = AuthClient.get_providers('opac') %]
+                                        [% IF ( ! identity_providers.empty ) %]
+                                            <div class="external-providers">
+                                                [% FOREACH provider IN identity_providers %]
+                                                    [% shadcn_button(
+                                                        text = 'Log in with ' _ provider.description,
+                                                        href = provider.url,
+                                                        variant = "outline",
+                                                        class = "provider-button w-full",
+                                                        id = "provider_" _ provider.code
+                                                    ) %]
+                                                [% END %]
+                                            </div>
+                                            <div class="login-separator">
+                                                <span class="separator-text">or use your library account</span>
+                                            </div>
+                                        [% END %]
+                                        
+                                        <div class="login-fields">
+                                            [% shadcn_input(
+                                                type = "text",
+                                                name = "login_userid",
+                                                id = "userid",
+                                                label = "Username",
+                                                required = 1,
+                                                class = "login-input"
+                                            ) %]
+                                            
+                                            [% shadcn_input(
+                                                type = "password",
+                                                name = "login_password",
+                                                id = "password",
+                                                label = "Password",
+                                                required = 1,
+                                                class = "login-input"
+                                            ) %]
+                                            
+                                            <input type="hidden" name="op" value="cud-login" />
+                                            
+                                            [% shadcn_button(
+                                                text = "Log in",
+                                                type = "submit",
+                                                variant = "primary",
+                                                class = "login-submit w-full"
+                                            ) %]
+                                        </div>
+                                    </form>
+                                [% END %]
+                                [% footer = BLOCK %]
+                                    <div class="login-links">
+                                        [% IF OpacPasswordChange && Categories.can_any_reset_password %]
+                                            <a href="/cgi-bin/koha/opac-password-recovery.pl" class="text-sm link">Forgot your password?</a>
+                                        [% END %]
+                                        [% IF Koha.Preference( 'PatronSelfRegistration' ) == 1 %]
+                                            [% shadcn_button(
+                                                text = "Register here",
+                                                href = "/cgi-bin/koha/opac-memberentry.pl",
+                                                variant = "ghost",
+                                                size = "sm",
+                                                class = "register-button"
+                                            ) %]
+                                        [% END %]
+                                    </div>
+                                [% END %]
+                            [% END %]
+                        [% END %]
+                    [% END %]
+                    
+                    [% IF OpacNavRight %]
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "opac-nav-right",
+                            body = BLOCK
+                        ) %]
+                            [% PROCESS koha_news_block news => OpacNavRight %]
+                        [% END %]
+                    [% END %]
+                </aside>
+            [% END %]
+        </div>
+        <!-- / content grid -->
+    </div>
+    <!-- / main container -->
+</main>
+
+[% INCLUDE 'opac-bottom.inc' %]
+[% BLOCK jsinclude %]
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize news branch selector
+            const newsBranchSelect = document.getElementById('news-branch');
+            if (newsBranchSelect) {
+                newsBranchSelect.addEventListener('change', function() {
+                    this.form.submit();
+                });
+            }
+            
+            // Initialize login form enhancements
+            const loginForm = document.getElementById('auth');
+            if (loginForm) {
+                const inputs = loginForm.querySelectorAll('input[type="text"], input[type="password"]');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', function() {
+                        this.closest('.form-group').classList.add('focused');
+                    });
+                    input.addEventListener('blur', function() {
+                        if (!this.value) {
+                            this.closest('.form-group').classList.remove('focused');
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+[% END %]

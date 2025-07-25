@@ -1,0 +1,659 @@
+[% USE raw %]
+[% USE Koha %]
+[% USE KohaDates %]
+[% USE Branches %]
+[% USE Categories %]
+[% USE AdditionalContents %]
+[% PROCESS 'i18n.inc' %]
+[% PROCESS 'shadcn-staff-helpers.inc' %]
+[% INCLUDE 'doc-head-open.inc' %]
+<title>Staff Dashboard - Advanced Features - [% IF ( LibraryNameTitle ) %][% LibraryNameTitle | html %][% ELSE %]Koha[% END %]</title>
+[% INCLUDE 'doc-head-close-shadcn.inc' %]
+[% BLOCK cssinclude %]
+<style>
+.demo-section {
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.demo-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.demo-description {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.feature-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.feature-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.page-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+</style>
+[% END %]
+</head>
+[% INCLUDE 'header.inc' %]
+[% INCLUDE 'cat-search.inc' %]
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="/cgi-bin/koha/mainpage.pl">Home</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="/cgi-bin/koha/admin/admin-home.pl">Administration</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Advanced Features Demo
+        </li>
+    </ol>
+</nav>
+
+<div class="main container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Advanced Features Demo</h1>
+                    <p class="page-subtitle">Phase 4: Advanced components and staff interface integration</p>
+                </div>
+                <div class="page-actions">
+                    [% shadcn_button(
+                        text = '<svg class="icon feather-icon" aria-hidden="true"><use href="#refresh-cw"></use></svg> Refresh',
+                        variant = "outline",
+                        size = "sm"
+                    ) %]
+                    [% shadcn_button(
+                        text = '<svg class="icon feather-icon" aria-hidden="true"><use href="#settings"></use></svg> Settings',
+                        variant = "primary",
+                        size = "sm"
+                    ) %]
+                </div>
+            </div>
+
+            <!-- Statistics Dashboard -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    <svg class="icon feather-icon" aria-hidden="true"><use href="#bar-chart-2"></use></svg>
+                    Statistics Dashboard
+                </h2>
+                <p class="demo-description">
+                    Advanced statistics dashboard with real-time data visualization, trend analysis, and export capabilities.
+                </p>
+
+                [% SET dashboard_stats = [
+                    {
+                        icon = "book",
+                        value = "12,543",
+                        label = "Total Items",
+                        trend = "+5.2%",
+                        trend_type = "positive",
+                        description = "Books, journals, and media",
+                        progress = 85
+                    },
+                    {
+                        icon = "users",
+                        value = "3,247",
+                        label = "Active Members",
+                        trend = "+12.8%",
+                        trend_type = "positive",
+                        description = "Registered library users",
+                        progress = 68
+                    },
+                    {
+                        icon = "activity",
+                        value = "1,829",
+                        label = "Checkouts Today",
+                        trend = "-2.1%",
+                        trend_type = "negative",
+                        description = "Items borrowed today",
+                        progress = 42
+                    },
+                    {
+                        icon = "clock",
+                        value = "234",
+                        label = "Overdue Items",
+                        trend = "-8.3%",
+                        trend_type = "positive",
+                        description = "Items past due date",
+                        progress = 23
+                    }
+                ] %]
+
+                [% shadcn_stats_dashboard(
+                    title = "Library Statistics",
+                    stats = dashboard_stats,
+                    period_selector = 1,
+                    export_options = 1
+                ) %]
+            </div>
+
+            <!-- Advanced Data Table -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    <svg class="icon feather-icon" aria-hidden="true"><use href="#table"></use></svg>
+                    Advanced Data Table
+                </h2>
+                <p class="demo-description">
+                    Comprehensive data table with search, sorting, filtering, pagination, and bulk actions.
+                </p>
+
+                [% SET table_columns = [
+                    { key = "title", label = "Title", sortable = 1, type = "link" },
+                    { key = "author", label = "Author", sortable = 1 },
+                    { key = "isbn", label = "ISBN", sortable = 1 },
+                    { key = "status", label = "Status", sortable = 1, type = "badge" },
+                    { key = "checkout_date", label = "Checkout Date", sortable = 1, type = "date" },
+                    { key = "due_date", label = "Due Date", sortable = 1, type = "date" }
+                ] %]
+
+                [% SET table_data = [
+                    {
+                        id = "1",
+                        title = "The Great Gatsby",
+                        title_url = "/cgi-bin/koha/catalogue/detail.pl?biblionumber=1",
+                        author = "F. Scott Fitzgerald",
+                        isbn = "978-0-7432-7356-5",
+                        status = "Available",
+                        status_variant = "success",
+                        checkout_date = "2024-01-15",
+                        due_date = "2024-01-29"
+                    },
+                    {
+                        id = "2",
+                        title = "To Kill a Mockingbird",
+                        title_url = "/cgi-bin/koha/catalogue/detail.pl?biblionumber=2",
+                        author = "Harper Lee",
+                        isbn = "978-0-06-112008-4",
+                        status = "Checked Out",
+                        status_variant = "warning",
+                        checkout_date = "2024-01-10",
+                        due_date = "2024-01-24"
+                    },
+                    {
+                        id = "3",
+                        title = "1984",
+                        title_url = "/cgi-bin/koha/catalogue/detail.pl?biblionumber=3",
+                        author = "George Orwell",
+                        isbn = "978-0-452-28423-4",
+                        status = "Overdue",
+                        status_variant = "destructive",
+                        checkout_date = "2024-01-01",
+                        due_date = "2024-01-15"
+                    }
+                ] %]
+
+                [% SET table_actions = [
+                    { text = "Edit", href = "/cgi-bin/koha/cataloguing/addbiblio.pl?biblionumber={{id}}" },
+                    { text = "Delete", onclick = "confirmDelete('{{id}}')" }
+                ] %]
+
+                [% shadcn_advanced_table(
+                    id = "demo-table",
+                    data = table_data,
+                    columns = table_columns,
+                    actions = table_actions,
+                    searchable = 1,
+                    sortable = 1,
+                    selectable = 1,
+                    paginated = 1,
+                    exportable = 1
+                ) %]
+            </div>
+
+            <!-- Chart Visualization -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    <svg class="icon feather-icon" aria-hidden="true"><use href="#trending-up"></use></svg>
+                    Data Visualization
+                </h2>
+                <p class="demo-description">
+                    Interactive charts and graphs with real-time updates, drill-down capabilities, and export options.
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        [% SET chart_controls = [
+                            { text = "7 Days", action = "period", value = "7d", active = 0 },
+                            { text = "30 Days", action = "period", value = "30d", active = 1 },
+                            { text = "90 Days", action = "period", value = "90d", active = 0 }
+                        ] %]
+
+                        [% shadcn_chart(
+                            id = "circulation-chart",
+                            title = "Circulation Trends",
+                            type = "line",
+                            controls = chart_controls,
+                            height = "300px"
+                        ) %]
+                    </div>
+
+                    <div class="feature-card">
+                        [% SET chart_controls_2 = [
+                            { text = "Items", action = "type", value = "items", active = 1 },
+                            { text = "Members", action = "type", value = "members", active = 0 }
+                        ] %]
+
+                        [% shadcn_chart(
+                            id = "category-chart",
+                            title = "Collection Categories",
+                            type = "doughnut",
+                            controls = chart_controls_2,
+                            height = "300px"
+                        ) %]
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Form Builder -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    <svg class="icon feather-icon" aria-hidden="true"><use href="#edit-3"></use></svg>
+                    Advanced Form Builder
+                </h2>
+                <p class="demo-description">
+                    Dynamic form builder with conditional fields, file uploads, validation, and multi-step workflows.
+                </p>
+
+                [% SET form_sections = [
+                    {
+                        title = "Basic Information",
+                        description = "Enter the basic details for the new item",
+                        fields = [
+                            {
+                                type = "text",
+                                name = "title",
+                                label = "Title",
+                                placeholder = "Enter item title",
+                                required = 1
+                            },
+                            {
+                                type = "text",
+                                name = "author",
+                                label = "Author",
+                                placeholder = "Enter author name",
+                                required = 1
+                            },
+                            {
+                                type = "text",
+                                name = "isbn",
+                                label = "ISBN",
+                                placeholder = "Enter ISBN",
+                                description = "International Standard Book Number"
+                            },
+                            {
+                                type = "select",
+                                name = "item_type",
+                                label = "Item Type",
+                                required = 1,
+                                options = [
+                                    { value = "book", label = "Book" },
+                                    { value = "journal", label = "Journal" },
+                                    { value = "dvd", label = "DVD" },
+                                    { value = "cd", label = "CD" }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title = "Additional Details",
+                        description = "Provide additional information about the item",
+                        fields = [
+                            {
+                                type = "textarea",
+                                name = "description",
+                                label = "Description",
+                                placeholder = "Enter item description",
+                                rows = 4
+                            },
+                            {
+                                type = "number",
+                                name = "pages",
+                                label = "Number of Pages",
+                                placeholder = "Enter page count"
+                            },
+                            {
+                                type = "file",
+                                name = "cover_image",
+                                label = "Cover Image",
+                                accept = "image/*",
+                                description = "Upload a cover image (JPG, PNG, max 5MB)"
+                            },
+                            {
+                                type = "checkbox",
+                                name = "featured",
+                                label = "Feature this item",
+                                description = "Display this item in featured collections"
+                            }
+                        ]
+                    }
+                ] %]
+
+                [% shadcn_form_builder(
+                    id = "advanced-form",
+                    method = "post",
+                    action = "/cgi-bin/koha/cataloguing/additem.pl",
+                    sections = form_sections,
+                    class = "demo-form"
+                ) %]
+
+                <div style="margin-top: 2rem;">
+                    [% shadcn_button(
+                        text = '<svg class="icon feather-icon" aria-hidden="true"><use href="#save"></use></svg> Save Item',
+                        variant = "primary",
+                        type = "submit",
+                        form = "advanced-form"
+                    ) %]
+                    [% shadcn_button(
+                        text = "Cancel",
+                        variant = "outline",
+                        onclick = "history.back()"
+                    ) %]
+                </div>
+            </div>
+
+            <!-- Dashboard Widgets -->
+            <div class="demo-section">
+                <h2 class="demo-title">
+                    <svg class="icon feather-icon" aria-hidden="true"><use href="#layout"></use></svg>
+                    Dashboard Widgets
+                </h2>
+                <p class="demo-description">
+                    Customizable dashboard widgets with drag-and-drop functionality, real-time updates, and personalization options.
+                </p>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-widget" style="grid-column: span 6;">
+                        [% SET recent_actions = [
+                            {
+                                text = "New book added: 'The Midnight Library'",
+                                meta = "2 minutes ago",
+                                icon = "book"
+                            },
+                            {
+                                text = "Member John Doe checked out 3 items",
+                                meta = "5 minutes ago",
+                                icon = "user"
+                            },
+                            {
+                                text = "Overdue notice sent to 12 members",
+                                meta = "1 hour ago",
+                                icon = "mail"
+                            }
+                        ] %]
+
+                        [% shadcn_dashboard_widget(
+                            id = "recent-activity",
+                            title = "Recent Activity",
+                            type = "activity",
+                            content = BLOCK,
+                            actions = [
+                                { text = "View All", href = "/cgi-bin/koha/tools/action_logs.pl", icon = "external-link" },
+                                { text = "Export", href = "#", icon = "download" }
+                            ]
+                        ) %]
+                            <div class="activity-list">
+                                [% FOREACH activity IN recent_actions %]
+                                    <div class="activity-item">
+                                        <svg class="activity-icon feather-icon" aria-hidden="true"><use href="#[% activity.icon %]"></use></svg>
+                                        <div class="activity-content">
+                                            <div class="activity-text">[% activity.text %]</div>
+                                            <div class="activity-meta">[% activity.meta %]</div>
+                                        </div>
+                                    </div>
+                                [% END %]
+                            </div>
+                        [% END %]
+                    </div>
+
+                    <div class="dashboard-widget" style="grid-column: span 3;">
+                        [% shadcn_dashboard_widget(
+                            id = "quick-stats",
+                            title = "Quick Stats",
+                            type = "stats",
+                            content = BLOCK
+                        ) %]
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value">95%</div>
+                                    <div class="stat-label">System Uptime</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value">2.3s</div>
+                                    <div class="stat-label">Avg Response Time</div>
+                                </div>
+                            </div>
+                        [% END %]
+                    </div>
+
+                    <div class="dashboard-widget" style="grid-column: span 3;">
+                        [% SET quick_actions = [
+                            { text = "Add Item", icon = "plus", href = "/cgi-bin/koha/cataloguing/additem.pl" },
+                            { text = "New Member", icon = "user-plus", href = "/cgi-bin/koha/members/memberentry.pl" },
+                            { text = "Check Out", icon = "book", href = "/cgi-bin/koha/circ/circulation.pl" },
+                            { text = "Reports", icon = "bar-chart", href = "/cgi-bin/koha/reports/guided_reports.pl" }
+                        ] %]
+
+                        [% shadcn_dashboard_widget(
+                            id = "quick-actions",
+                            title = "Quick Actions",
+                            type = "actions",
+                            content = BLOCK
+                        ) %]
+                            <div class="quick-actions-grid">
+                                [% FOREACH action IN quick_actions %]
+                                    <a href="[% action.href %]" class="quick-action">
+                                        <svg class="quick-action-icon feather-icon" aria-hidden="true"><use href="#[% action.icon %]"></use></svg>
+                                        <span class="quick-action-text">[% action.text %]</span>
+                                    </a>
+                                [% END %]
+                            </div>
+                        [% END %]
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+[% INCLUDE 'intranet-bottom.inc' %]
+[% BLOCK jsinclude %]
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize advanced components
+    console.log('Advanced staff interface components loaded');
+    
+    // Demo functionality
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            console.log('Deleting item:', id);
+        }
+    }
+    
+    // Make confirmDelete available globally
+    window.confirmDelete = confirmDelete;
+    
+    // Initialize charts (placeholder for actual charting library)
+    initializeDemoCharts();
+    
+    // Initialize file upload
+    initializeFileUpload();
+    
+    // Initialize widget menus
+    initializeWidgetMenus();
+});
+
+function initializeDemoCharts() {
+    const chartContainers = document.querySelectorAll('.chart-canvas');
+    chartContainers.forEach(container => {
+        // Placeholder for actual chart rendering
+        container.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-secondary);">
+                <div style="text-align: center;">
+                    <svg class="icon feather-icon" style="width: 48px; height: 48px; margin-bottom: 1rem;" aria-hidden="true">
+                        <use href="#bar-chart-2"></use>
+                    </svg>
+                    <p>Chart visualization would render here</p>
+                </div>
+            </div>
+        `;
+    });
+}
+
+function initializeFileUpload() {
+    const fileInputs = document.querySelectorAll('.file-upload-input');
+    fileInputs.forEach(input => {
+        const container = input.closest('.file-upload-container');
+        const area = container.querySelector('.file-upload-area');
+        
+        // Drag and drop functionality
+        area.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            area.classList.add('drag-over');
+        });
+        
+        area.addEventListener('dragleave', () => {
+            area.classList.remove('drag-over');
+        });
+        
+        area.addEventListener('drop', (e) => {
+            e.preventDefault();
+            area.classList.remove('drag-over');
+            
+            const files = e.dataTransfer.files;
+            handleFiles(files, container);
+        });
+        
+        input.addEventListener('change', (e) => {
+            const files = e.target.files;
+            handleFiles(files, container);
+        });
+    });
+}
+
+function handleFiles(files, container) {
+    const filesContainer = container.querySelector('.file-upload-files');
+    
+    Array.from(files).forEach(file => {
+        const fileElement = document.createElement('div');
+        fileElement.className = 'file-upload-file';
+        fileElement.innerHTML = `
+            <div class="file-upload-file-info">
+                <svg class="icon feather-icon" aria-hidden="true"><use href="#file"></use></svg>
+                <span class="file-upload-file-name">${file.name}</span>
+                <span class="file-upload-file-size">${formatFileSize(file.size)}</span>
+            </div>
+            <button type="button" class="file-upload-file-remove">
+                <svg class="icon feather-icon" aria-hidden="true"><use href="#x"></use></svg>
+            </button>
+        `;
+        
+        fileElement.querySelector('.file-upload-file-remove').addEventListener('click', () => {
+            fileElement.remove();
+        });
+        
+        filesContainer.appendChild(fileElement);
+    });
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+function initializeWidgetMenus() {
+    const menuButtons = document.querySelectorAll('.widget-menu-btn');
+    menuButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('show');
+        });
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.widget-menu')) {
+            document.querySelectorAll('.widget-menu-dropdown').forEach(dropdown => {
+                dropdown.classList.remove('show');
+            });
+        }
+    });
+}
+</script>
+[% END %]

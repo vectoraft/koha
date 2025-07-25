@@ -1,0 +1,434 @@
+/* SHAD CN Icons: Feather/Heroicons SVG styles */
+
+@layer components {
+  /* Base Icon */
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    color: currentColor;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+  }
+
+  /* Icon Sizes */
+  .icon-xs {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  .icon-sm {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .icon-md {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .icon-lg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .icon-xl {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .icon-2xl {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-3xl {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  /* Icon Colors */
+  .icon-primary {
+    color: hsl(var(--primary));
+  }
+
+  .icon-secondary {
+    color: hsl(var(--secondary-foreground));
+  }
+
+  .icon-muted {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .icon-destructive {
+    color: hsl(var(--destructive));
+  }
+
+  .icon-success {
+    color: hsl(var(--success));
+  }
+
+  .icon-warning {
+    color: hsl(var(--warning));
+  }
+
+  /* Icon Buttons */
+  .icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius);
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .icon-button:hover {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .icon-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);
+  }
+
+  .icon-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .icon-button-sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-button-lg {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .icon-button-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .icon-button-primary:hover {
+    background: hsl(var(--primary) / 0.9);
+  }
+
+  .icon-button-secondary {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+  }
+
+  .icon-button-secondary:hover {
+    background: hsl(var(--secondary) / 0.9);
+  }
+
+  .icon-button-destructive {
+    background: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+  }
+
+  .icon-button-destructive:hover {
+    background: hsl(var(--destructive) / 0.9);
+  }
+
+  .icon-button-outline {
+    border: 1px solid hsl(var(--border));
+    background: transparent;
+  }
+
+  .icon-button-outline:hover {
+    background: hsl(var(--accent));
+    border-color: hsl(var(--accent));
+  }
+
+  .icon-button-ghost {
+    background: transparent;
+    border: none;
+  }
+
+  .icon-button-ghost:hover {
+    background: hsl(var(--accent));
+  }
+
+  /* Icon with Text */
+  .icon-with-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .icon-with-text .icon {
+    flex-shrink: 0;
+  }
+
+  /* Loading/Spinning Icons */
+  .icon-spin {
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Pulse Animation */
+  .icon-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  /* Bounce Animation */
+  .icon-bounce {
+    animation: bounce 1s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: none;
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
+  /* Common Feather Icons as CSS */
+  .feather-icon {
+    width: 1em;
+    height: 1em;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  /* Icon Positioning */
+  .icon-left {
+    margin-right: 0.5rem;
+  }
+
+  .icon-right {
+    margin-left: 0.5rem;
+  }
+
+  .icon-top {
+    margin-bottom: 0.5rem;
+  }
+
+  .icon-bottom {
+    margin-top: 0.5rem;
+  }
+
+  /* Icon States */
+  .icon-active {
+    color: hsl(var(--primary));
+  }
+
+  .icon-inactive {
+    color: hsl(var(--muted-foreground));
+    opacity: 0.5;
+  }
+
+  .icon-hover:hover {
+    color: hsl(var(--primary));
+    transform: scale(1.1);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  /* Icon Backgrounds */
+  .icon-bg {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background: hsl(var(--muted));
+    border-radius: var(--radius);
+  }
+
+  .icon-bg-circle {
+    border-radius: 50%;
+  }
+
+  .icon-bg-primary {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  .icon-bg-secondary {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+  }
+
+  .icon-bg-destructive {
+    background: hsl(var(--destructive));
+    color: hsl(var(--destructive-foreground));
+  }
+
+  .icon-bg-success {
+    background: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+  }
+
+  .icon-bg-warning {
+    background: hsl(var(--warning));
+    color: hsl(var(--warning-foreground));
+  }
+
+  /* Icon Groups */
+  .icon-group {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .icon-group .icon {
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .icon-group:hover .icon {
+    transform: scale(1.1);
+  }
+
+  /* Icon Badges */
+  .icon-badge {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .icon-badge::after {
+    content: '';
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: hsl(var(--destructive));
+    border-radius: 50%;
+    border: 1px solid hsl(var(--background));
+  }
+
+  .icon-badge-primary::after {
+    background: hsl(var(--primary));
+  }
+
+  .icon-badge-success::after {
+    background: hsl(var(--success));
+  }
+
+  .icon-badge-warning::after {
+    background: hsl(var(--warning));
+  }
+
+  .icon-badge-lg::after {
+    width: 0.75rem;
+    height: 0.75rem;
+    top: -0.375rem;
+    right: -0.375rem;
+  }
+
+  /* Icon Overlays */
+  .icon-overlay {
+    position: relative;
+    display: inline-flex;
+  }
+
+  .icon-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity var(--animation-duration) var(--animation-easing);
+  }
+
+  .icon-overlay:hover::before {
+    opacity: 1;
+  }
+
+  /* Icon Tooltips */
+  .icon-tooltip {
+    position: relative;
+    cursor: help;
+  }
+
+  .icon-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: hsl(var(--foreground));
+    color: hsl(var(--background));
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--animation-duration) var(--animation-easing);
+    z-index: 50;
+  }
+
+  .icon-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Responsive Icon Sizes */
+  @media (max-width: 768px) {
+    .icon-responsive {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    .icon-button-responsive {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .icon-bg-responsive {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  /* Dark Mode Icon Adjustments */
+  @media (prefers-color-scheme: dark) {
+    .icon-adaptive {
+      filter: invert(1);
+    }
+  }
+
+  [data-theme="dark"] .icon-adaptive {
+    filter: invert(1);
+  }
+}

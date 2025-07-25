@@ -1,0 +1,7 @@
+{
+    "name": "Koha Dev Container",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "postCreateCommand": "carton install"
+}

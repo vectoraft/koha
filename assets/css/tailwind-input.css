@@ -1,0 +1,120 @@
+/* Tailwind CSS Input File */
+@import 'tailwindcss';
+
+/* Import our foundation CSS */
+@import './shadcn-foundation.css';
+
+/* Import component styles */
+@import './components/buttons.css';
+@import './components/cards.css';
+@import './components/forms.css';
+@import './components/navigation.css';
+
+/* Custom utility classes */
+.glass-effect {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.neomorph-inset {
+  background: var(--neomorph-bg);
+  box-shadow: 
+    inset 5px 5px 10px var(--neomorph-shadow-dark),
+    inset -5px -5px 10px var(--neomorph-shadow-light);
+}
+
+.neomorph-raised {
+  background: var(--neomorph-bg);
+  box-shadow: 
+    5px 5px 10px var(--neomorph-shadow-dark),
+    -5px -5px 10px var(--neomorph-shadow-light);
+}
+
+.smooth-transition {
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus-ring:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.button-primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: 1px solid hsl(var(--primary));
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.button-primary:hover {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.button-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.button-secondary:hover {
+  background-color: hsl(var(--secondary) / 0.8);
+}
+
+.card-base {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-base {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.input-base:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-color: hsl(var(--ring));
+}
+
+.nav-item {
+  color: hsl(var(--foreground));
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.nav-item:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+.nav-item.active {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}

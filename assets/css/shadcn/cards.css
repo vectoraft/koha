@@ -1,0 +1,235 @@
+/* SHAD CN Cards: Glassmorphism and neumorphism card styles */
+
+@layer components {
+  /* Base Card */
+  .card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) + 2px);
+    color: hsl(var(--card-foreground));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  /* Card Header */
+  .card-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  .card-description {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0.5rem 0 0 0;
+  }
+
+  /* Card Content */
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  /* Card Footer */
+  .card-footer {
+    padding: 1.5rem;
+    border-top: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* Glass Card */
+  .card-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: calc(var(--radius) + 4px);
+    color: hsl(var(--card-foreground));
+    box-shadow: 0 8px 32px var(--glass-shadow);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card-glass:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-glass .card-header {
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .card-glass .card-footer {
+    border-top: 1px solid var(--glass-border);
+  }
+
+  /* Neumorphic Card */
+  .card-neomorph {
+    background: var(--neomorph-bg);
+    border: none;
+    border-radius: calc(var(--radius) + 4px);
+    color: hsl(var(--card-foreground));
+    box-shadow: 
+      8px 8px 16px var(--neomorph-shadow-dark),
+      -8px -8px 16px var(--neomorph-shadow-light);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card-neomorph:hover {
+    box-shadow: 
+      12px 12px 24px var(--neomorph-shadow-dark),
+      -12px -12px 24px var(--neomorph-shadow-light);
+    transform: translateY(-2px);
+  }
+
+  .card-neomorph .card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .card-neomorph .card-footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  /* Elevated Card */
+  .card-elevated {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) + 2px);
+    color: hsl(var(--card-foreground));
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card-elevated:hover {
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+  }
+
+  /* Gradient Card */
+  .card-gradient {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--accent) / 0.1));
+    border: 1px solid hsl(var(--border));
+    border-radius: calc(var(--radius) + 2px);
+    color: hsl(var(--card-foreground));
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card-gradient:hover {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.15), hsl(var(--accent) / 0.15));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Interactive Card */
+  .card-interactive {
+    cursor: pointer;
+    transition: all var(--animation-duration) var(--animation-easing);
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card-interactive:active {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Card Variants */
+  .card-compact .card-header,
+  .card-compact .card-content,
+  .card-compact .card-footer {
+    padding: 1rem;
+  }
+
+  .card-spacious .card-header,
+  .card-spacious .card-content,
+  .card-spacious .card-footer {
+    padding: 2rem;
+  }
+
+  /* Card with Image */
+  .card-image img {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius) + 2px) calc(var(--radius) + 2px) 0 0;
+  }
+
+  .card-image .card-content {
+    padding-top: 1rem;
+  }
+
+  /* Statistics Card */
+  .card-stat {
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .card-stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: hsl(var(--primary));
+  }
+
+  .card-stat-label {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+    margin-top: 0.5rem;
+  }
+
+  .card-stat-change {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+
+  .card-stat-change.positive {
+    color: #22c55e;
+  }
+
+  .card-stat-change.negative {
+    color: #ef4444;
+  }
+
+  /* Loading Card */
+  .card-loading {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+}

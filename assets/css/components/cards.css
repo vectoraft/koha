@@ -1,0 +1,288 @@
+/* SHAD CN Card Components */
+
+/* Base Card */
+.card {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Header */
+.card-header {
+  padding: 1.5rem 1.5rem 0;
+  border-bottom: 1px solid hsl(var(--border));
+  margin-bottom: 1.5rem;
+}
+
+.card-header:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.card-header-no-border {
+  padding: 1.5rem 1.5rem 0;
+  border-bottom: none;
+  margin-bottom: 1.5rem;
+}
+
+/* Card Title */
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.75;
+  margin: 0 0 0.5rem 0;
+  color: hsl(var(--card-foreground));
+}
+
+/* Card Description */
+.card-description {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+  margin: 0;
+}
+
+/* Card Content */
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-content:first-child {
+  padding-top: 1.5rem;
+}
+
+.card-content:last-child {
+  padding-bottom: 1.5rem;
+}
+
+/* Card Footer */
+.card-footer {
+  padding: 0 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid hsl(var(--border));
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.card-footer:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 1.5rem;
+}
+
+.card-footer-no-border {
+  padding: 0 1.5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: none;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+/* Card Variants */
+.card-elevated {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-elevated:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.card-outlined {
+  border: 2px solid hsl(var(--border));
+  box-shadow: none;
+}
+
+.card-filled {
+  background-color: hsl(var(--muted));
+  border: 1px solid hsl(var(--muted));
+}
+
+/* Glassmorphism Card */
+.card-glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px var(--glass-shadow);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: hsl(var(--card-foreground));
+}
+
+.card-glass:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 40px var(--glass-shadow);
+}
+
+/* Neumorphism Card */
+.card-neomorph {
+  background: var(--neomorph-bg);
+  box-shadow: 
+    5px 5px 10px var(--neomorph-shadow-dark),
+    -5px -5px 10px var(--neomorph-shadow-light);
+  border: none;
+  color: hsl(var(--card-foreground));
+}
+
+.card-neomorph:hover {
+  box-shadow: 
+    8px 8px 16px var(--neomorph-shadow-dark),
+    -8px -8px 16px var(--neomorph-shadow-light);
+}
+
+.card-neomorph-inset {
+  background: var(--neomorph-bg);
+  box-shadow: 
+    inset 5px 5px 10px var(--neomorph-shadow-dark),
+    inset -5px -5px 10px var(--neomorph-shadow-light);
+  border: none;
+}
+
+/* Card Sizes */
+.card-sm {
+  border-radius: calc(var(--radius) * 0.75);
+}
+
+.card-sm .card-header,
+.card-sm .card-content,
+.card-sm .card-footer {
+  padding: 1rem;
+}
+
+.card-lg {
+  border-radius: calc(var(--radius) * 1.5);
+}
+
+.card-lg .card-header,
+.card-lg .card-content,
+.card-lg .card-footer {
+  padding: 2rem;
+}
+
+/* Interactive Card */
+.card-interactive {
+  cursor: pointer;
+  transition: all var(--animation-duration) var(--animation-easing);
+}
+
+.card-interactive:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.card-interactive:active {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Card with Image */
+.card-with-image {
+  overflow: hidden;
+}
+
+.card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-image-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-image-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+}
+
+.card-image-overlay .card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  z-index: 1;
+}
+
+/* Card Grid */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card-grid-sm {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.card-grid-lg {
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+/* Card Loading State */
+.card-loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Card Status Indicators */
+.card-success {
+  border-left: 4px solid hsl(120, 60%, 50%);
+}
+
+.card-warning {
+  border-left: 4px solid hsl(45, 100%, 50%);
+}
+
+.card-error {
+  border-left: 4px solid hsl(var(--destructive));
+}
+
+.card-info {
+  border-left: 4px solid hsl(var(--primary));
+}

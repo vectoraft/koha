@@ -1,0 +1,487 @@
+[% USE raw %]
+[% USE Koha %]
+[% USE KohaDates %]
+[% USE Branches %]
+[% USE Categories %]
+[% USE AdditionalContents %]
+[% PROCESS 'i18n.inc' %]
+[% PROCESS 'shadcn-helpers.inc' %]
+[% INCLUDE 'doc-head-open.inc' %]
+<title>SHAD CN Integration Demo - [% IF ( LibraryNameTitle ) %][% LibraryNameTitle | html %][% ELSE %]Koha online[% END %] catalog</title>
+[% INCLUDE 'doc-head-close-shadcn.inc' %]
+[% BLOCK cssinclude %]
+<style>
+.demo-section {
+    margin: 2rem 0;
+    padding: 2rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.component-showcase {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.component-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.component-description {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.component-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.code-example {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 6px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+}
+
+.demo-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+}
+</style>
+[% END %]
+</head>
+[% INCLUDE 'bodytag.inc' bodyid='shadcn-demo' %]
+[% INCLUDE 'masthead-shadcn.inc' %]
+
+<main class="main-content">
+    <div class="main-container">
+        <div class="content-grid">
+            <div class="main-content-area">
+                <!-- Page Header -->
+                [% shadcn_card(
+                    variant = "glass",
+                    class = "page-header",
+                    header = BLOCK
+                ) %]
+                    <div class="header-content">
+                        <h1 class="page-title">SHAD CN Integration Demo</h1>
+                        <p class="page-subtitle">Showcasing the modernized Koha template system with SHAD CN design components</p>
+                        [% shadcn_badge(text = "Template Integration", variant = "primary") %]
+                        [% shadcn_badge(text = "Phase 3", variant = "secondary") %]
+                    </div>
+                [% END %]
+
+                <!-- Statistics Overview -->
+                <div class="demo-section">
+                    <h2>Integration Statistics</h2>
+                    <div class="demo-stats">
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "stat-card",
+                            stats = {
+                                "components" => { value => "9", label => "Component Systems" },
+                                "templates" => { value => "1096", label => "Template Files" },
+                                "includes" => { value => "106", label => "Include Files" }
+                            }
+                        ) %]
+                        
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "stat-card",
+                            body = BLOCK
+                        ) %]
+                            <span class="stat-value">3</span>
+                            <span class="stat-label">Integration Helpers</span>
+                        [% END %]
+                        
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "stat-card",
+                            body = BLOCK
+                        ) %]
+                            <span class="stat-value">100%</span>
+                            <span class="stat-label">Modern CSS</span>
+                        [% END %]
+                        
+                        [% shadcn_card(
+                            variant = "glass",
+                            class = "stat-card",
+                            body = BLOCK
+                        ) %]
+                            <span class="stat-value">A++</span>
+                            <span class="stat-label">Accessibility</span>
+                        [% END %]
+                    </div>
+                </div>
+
+                <!-- Component Showcase -->
+                <div class="demo-section">
+                    <h2>Component Integration Examples</h2>
+                    
+                    <div class="demo-grid">
+                        <!-- Button Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Button Components</h3>
+                            <p class="component-description">Modernized button system with variants, sizes, and states</p>
+                            
+                            <div class="component-examples">
+                                [% shadcn_button(text = "Primary Action", variant = "primary") %]
+                                [% shadcn_button(text = "Secondary", variant = "secondary") %]
+                                [% shadcn_button(text = "Success", variant = "success") %]
+                                [% shadcn_button(text = "Destructive", variant = "destructive") %]
+                                [% shadcn_button(text = "With Icon", variant = "primary", icon = "search", icon_position = "left") %]
+                                [% shadcn_button(text = "Ghost Button", variant = "ghost") %]
+                            </div>
+                            
+                            <div class="code-example">
+[% shadcn_button(
+    text = "Primary Action",
+    variant = "primary",
+    icon = "search"
+) %]
+                            </div>
+                        </div>
+
+                        <!-- Card Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Card Components</h3>
+                            <p class="component-description">Flexible card system with glassmorphism effects</p>
+                            
+                            [% shadcn_card(
+                                variant = "glass",
+                                title = "News Article",
+                                subtitle = "Latest updates from the library",
+                                body = BLOCK
+                            ) %]
+                                <p>This is an example of a SHAD CN card component integrated with Koha's template system. It supports complex content and maintains accessibility standards.</p>
+                            [% END %]
+                            [% footer = BLOCK %]
+                                [% shadcn_button(text = "Read More", variant = "ghost", size = "sm") %]
+                            [% END %]
+                            
+                            <div class="code-example">
+[% shadcn_card(
+    variant = "glass",
+    title = "Card Title",
+    body = "Card content here"
+) %]
+                            </div>
+                        </div>
+
+                        <!-- Form Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Form Components</h3>
+                            <p class="component-description">Modern form inputs with validation and styling</p>
+                            
+                            <div class="component-examples">
+                                [% shadcn_input(
+                                    type = "text",
+                                    name = "demo_text",
+                                    label = "Text Input",
+                                    placeholder = "Enter text here"
+                                ) %]
+                                
+                                [% shadcn_input(
+                                    type = "email",
+                                    name = "demo_email",
+                                    label = "Email Address",
+                                    placeholder = "user@example.com",
+                                    required = 1
+                                ) %]
+                                
+                                [% shadcn_input(
+                                    type = "password",
+                                    name = "demo_password",
+                                    label = "Password",
+                                    description = "Must be at least 8 characters"
+                                ) %]
+                            </div>
+                            
+                            <div class="code-example">
+[% shadcn_input(
+    type = "text",
+    name = "field_name",
+    label = "Field Label",
+    required = 1
+) %]
+                            </div>
+                        </div>
+
+                        <!-- Alert Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Alert Components</h3>
+                            <p class="component-description">Notification system with different variants</p>
+                            
+                            <div class="component-examples">
+                                [% shadcn_alert(
+                                    variant = "success",
+                                    title = "Success",
+                                    message = "Operation completed successfully",
+                                    icon = "check-circle"
+                                ) %]
+                                
+                                [% shadcn_alert(
+                                    variant = "warning",
+                                    title = "Warning",
+                                    message = "Please review your input",
+                                    icon = "alert-triangle"
+                                ) %]
+                                
+                                [% shadcn_alert(
+                                    variant = "destructive",
+                                    title = "Error",
+                                    message = "Something went wrong",
+                                    icon = "x-circle"
+                                ) %]
+                            </div>
+                            
+                            <div class="code-example">
+[% shadcn_alert(
+    variant = "success",
+    title = "Success",
+    message = "Operation completed"
+) %]
+                            </div>
+                        </div>
+
+                        <!-- Badge Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Badge Components</h3>
+                            <p class="component-description">Status indicators and labels</p>
+                            
+                            <div class="component-examples">
+                                [% shadcn_badge(text = "New", variant = "primary") %]
+                                [% shadcn_badge(text = "Popular", variant = "success") %]
+                                [% shadcn_badge(text = "Limited", variant = "warning") %]
+                                [% shadcn_badge(text = "Sold Out", variant = "destructive") %]
+                                [% shadcn_badge(text = "Outline", variant = "secondary", outline = 1) %]
+                            </div>
+                            
+                            <div class="code-example">
+[% shadcn_badge(
+    text = "Status",
+    variant = "primary"
+) %]
+                            </div>
+                        </div>
+
+                        <!-- Navigation Components -->
+                        <div class="component-showcase">
+                            <h3 class="component-title">Navigation Components</h3>
+                            <p class="component-description">Modern navigation with icons and badges</p>
+                            
+                            <div class="component-examples">
+                                [% shadcn_nav_item(
+                                    text = "Dashboard",
+                                    href = "/dashboard",
+                                    icon = "home",
+                                    active = 1
+                                ) %]
+                                
+                                [% shadcn_nav_item(
+                                    text = "Messages",
+                                    href = "/messages",
+                                    icon = "mail",
+                                    badge = "5"
+                                ) %]
+                                
+                                [% shadcn_nav_item(
+                                    text = "Settings",
+                                    href = "/settings",
+                                    icon = "settings"
+                                ) %]
+                            </div>
+                            
+                            <div class="code-example">
+[% shadcn_nav_item(
+    text = "Dashboard",
+    href = "/dashboard",
+    icon = "home",
+    active = 1
+) %]
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Integration Features -->
+                <div class="demo-section">
+                    <h2>Integration Features</h2>
+                    
+                    [% shadcn_card(
+                        variant = "glass",
+                        class = "feature-overview",
+                        body = BLOCK
+                    ) %]
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <h3>📦 Component Library</h3>
+                                <p>9 complete component systems with consistent API</p>
+                            </div>
+                            <div class="feature-item">
+                                <h3>🎨 Template Toolkit Integration</h3>
+                                <p>Native TT macros for seamless component usage</p>
+                            </div>
+                            <div class="feature-item">
+                                <h3>🔄 Automated Migration</h3>
+                                <p>Scripts and tools for converting existing templates</p>
+                            </div>
+                            <div class="feature-item">
+                                <h3>♿ Accessibility First</h3>
+                                <p>WCAG 2.1 compliant with proper ARIA labels</p>
+                            </div>
+                            <div class="feature-item">
+                                <h3>📱 Responsive Design</h3>
+                                <p>Mobile-first approach with glass morphism effects</p>
+                            </div>
+                            <div class="feature-item">
+                                <h3>🌓 Theme System</h3>
+                                <p>Dark/light modes with smooth transitions</p>
+                            </div>
+                        </div>
+                    [% END %]
+                </div>
+
+                <!-- Sample Data Table -->
+                <div class="demo-section">
+                    <h2>Data Table Integration</h2>
+                    
+                    [% SET sample_headers = [
+                        { text = "Title", sortable = 1 },
+                        { text = "Author", sortable = 1 },
+                        { text = "Status", sortable = 0 },
+                        { text = "Actions", sortable = 0 }
+                    ] %]
+                    
+                    [% SET sample_rows = [
+                        [
+                            { content = "The Great Gatsby" },
+                            { content = "F. Scott Fitzgerald" },
+                            { content = shadcn_badge(text = "Available", variant = "success") },
+                            { content = shadcn_button(text = "View", variant = "ghost", size = "sm") }
+                        ],
+                        [
+                            { content = "To Kill a Mockingbird" },
+                            { content = "Harper Lee" },
+                            { content = shadcn_badge(text = "Checked Out", variant = "warning") },
+                            { content = shadcn_button(text = "Reserve", variant = "outline", size = "sm") }
+                        ],
+                        [
+                            { content = "1984" },
+                            { content = "George Orwell" },
+                            { content = shadcn_badge(text = "Available", variant = "success") },
+                            { content = shadcn_button(text = "View", variant = "ghost", size = "sm") }
+                        ]
+                    ] %]
+                    
+                    [% shadcn_table(
+                        headers = sample_headers,
+                        rows = sample_rows,
+                        sortable = 1,
+                        selectable = 1,
+                        variant = "glass"
+                    ) %]
+                </div>
+
+                <!-- Theme Toggle Demo -->
+                <div class="demo-section">
+                    <h2>Theme System</h2>
+                    
+                    [% shadcn_card(
+                        variant = "glass",
+                        class = "theme-demo",
+                        body = BLOCK
+                    ) %]
+                        <div class="theme-controls">
+                            <p>Toggle between light and dark themes:</p>
+                            [% shadcn_theme_toggle(class = "theme-toggle-demo") %]
+                            <p class="theme-note">The theme system uses CSS custom properties and smooth transitions for seamless switching.</p>
+                        </div>
+                    [% END %]
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+[% INCLUDE 'opac-bottom.inc' %]
+[% BLOCK jsinclude %]
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add demo-specific interactions
+    console.log('SHAD CN Template Integration Demo loaded');
+    
+    // Highlight active navigation
+    const navItems = document.querySelectorAll('.sidebar-nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    
+    // Demo table interactions
+    const tableRows = document.querySelectorAll('.table-row');
+    tableRows.forEach(row => {
+        row.addEventListener('click', function() {
+            this.classList.toggle('selected');
+        });
+    });
+    
+    // Component showcase interactions
+    const showcaseItems = document.querySelectorAll('.component-showcase');
+    showcaseItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    });
+});
+</script>
+[% END %]
